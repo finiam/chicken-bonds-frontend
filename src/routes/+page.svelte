@@ -4,7 +4,8 @@
   import connectStore from "$lib/svark/connectStore";
   import LUSD_ABI from "$lib/data/LUSD_ABI.json";
   import YEARN_ABI from "$lib/data/YEARN_ABI.json";
-  import Approve from "$lib/components/Approve.svelte";
+  import LusdApprove from "$lib/components/LUSDApprove.svelte";
+  import YearnApprove from "$lib/components/YearnApprove.svelte";
 
   async function connect() {
     await connectStore.connectWallet();
@@ -33,5 +34,10 @@
       4
     )}...{$accountStore.address.slice(-5)}
   </p>
-  <Approve />
+  <p>
+    To begin, you'll have to authorize the smart contracts to manage your LUSD,
+    and yearn LUSD. You can specify how much LUSD is controlled by the contract.
+  </p>
+  <LusdApprove />
+  <YearnApprove />
 {/if}

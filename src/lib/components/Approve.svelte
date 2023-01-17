@@ -2,12 +2,26 @@
   import accountStore from "$lib/svark/accountStore";
   import { number, uint256 } from "starknet";
   import contractsStore from "$lib/svark/contractsStore";
+  import { onMount } from "svelte";
+    import parseUint256 from "$lib/utils/parseUint256";
 
   let lusdAmount = 0;
   let yearnAmount = 0;
+  let lusdOwner = "";
+  let yearnOwner = "";
 
   const lusdCt = $contractsStore.LUSD;
   const yearnCt = $contractsStore.yearnLUSD;
+
+  onMount(async () => {
+    let reqOwner = await $lusdCt.owner();
+    lusdOwner = number.bigNumberishArrayToHexadecimalStringArray(reqOwner)[0];
+    let allowanceReq = await $lusdCt.allowance(
+      number.toFelt(lusdOwner),
+      number.toFelt($accountStore.address)
+    );
+        
+  });
 
   async function approveLUSD() {
     const spender = number.toFelt($accountStore.address);
