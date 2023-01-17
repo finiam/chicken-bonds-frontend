@@ -1,5 +1,5 @@
 import { writable } from "svelte/store";
-import { connect as starknetConnect } from "get-starknet";
+import { connect } from "get-starknet";
 import starknetStore from "./starknetStore";
 import _baseStore from "./_baseStore";
 
@@ -14,26 +14,26 @@ const store = writable<ConnectStore>({
   loading: false,
   success: false,
   idle: true,
-  error: false,
+  error: false
 });
 
 const connectStore = _baseStore(store, ({ subscribe, _set }) => {
   async function connectWallet() {
     _set({
       loading: true,
-      idle: true,
+      idle: true
     });
 
     try {
-      const starknet = await starknetConnect();
+      const starknet = await connect();
 
       if (!starknet) return;
 
-      const [address] = await starknet.enable();
+      await starknet.enable();
 
       starknetStore.set(starknet);
 
-      if (address) {
+      if (starknet.selectedAddress) {
         _set({ success: true });
       }
     } catch {
@@ -41,14 +41,14 @@ const connectStore = _baseStore(store, ({ subscribe, _set }) => {
     } finally {
       _set({
         loading: false,
-        idle: true,
+        idle: true
       });
     }
   }
 
   return {
     subscribe,
-    connectWallet,
+    connectWallet
   };
 });
 

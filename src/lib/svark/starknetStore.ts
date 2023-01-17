@@ -33,7 +33,7 @@ const starknetStore = _baseStore(
     }
 
     async function handleAccountsChange() {
-      const newStarknet = await connect()
+      const newStarknet = await connect();
 
       if (newStarknet.account) {
         console.log(`accountsChanged: ${newStarknet.account?.address}`);
@@ -42,7 +42,7 @@ const starknetStore = _baseStore(
       } else {
         const [address] = await newStarknet.enable({
           showModal: false,
-          starknetVersion: "v4",
+          starknetVersion: "v4"
         } as any);
 
         console.log(`accountsChanged: ${address}`);
@@ -71,7 +71,7 @@ const starknetStore = _baseStore(
       subscribe,
       set,
       networkId,
-      handleAccountsChange,
+      handleAccountsChange
     };
   }
 );

@@ -1,6 +1,6 @@
 import type { Abi } from "starknet";
 import { AccountInterface, Contract, ProviderInterface } from "starknet";
-import { writable } from "svelte/store";
+import { get, writable } from "svelte/store";
 import type { Writable } from "svelte/store";
 import contractsStore from "./contractsStore";
 

@@ -17,7 +17,7 @@ const contractsStore = _baseStore(store, ({ _set, subscribe }) => {
   function addContract(name: string, contract: Writable<Contract>) {
     if (!get(store)[name]) {
       _set({
-        [name]: contract,
+        [name]: contract
       });
     }
   }
@@ -25,7 +25,7 @@ const contractsStore = _baseStore(store, ({ _set, subscribe }) => {
   return {
     subscribe,
     addContract,
-    get,
+    get
   };
 });
 
@@ -33,8 +33,6 @@ export default contractsStore;
 
 accountStore.subscribe(({ account }) => {
   Object.entries(get(contractsStore)).forEach(([_, contract]) => {
-    contract.update(
-      (data) => ({ ...data, providerOrAccount: account } as StarknetContract)
-    );
+    get(contract).connect(account as any);
   });
 });

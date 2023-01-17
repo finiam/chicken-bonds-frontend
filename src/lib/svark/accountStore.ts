@@ -3,6 +3,7 @@ import { get, writable } from "svelte/store";
 import { createTypedMessage } from "$lib/utils/createTypedMessage";
 import starknetStore from "./starknetStore";
 import _baseStore from "./_baseStore";
+import { connect } from "get-starknet";
 
 type AccountStore = {
   address: string;
@@ -13,17 +14,19 @@ type AccountStore = {
 const store = writable<AccountStore>({
   address: "",
   account: null,
-  connected: false,
+  connected: false
 });
 
 const accountStore = _baseStore(store, ({ update, subscribe, _set }) => {
-  starknetStore.subscribe((st) => {
+  starknetStore.subscribe(async (st) => {
     if (!st) return;
+
+    await connect();
 
     _set({
       address: st.selectedAddress,
       account: st.account,
-      connected: true,
+      connected: true
     });
   });
 
@@ -38,9 +41,9 @@ const accountStore = _baseStore(store, ({ update, subscribe, _set }) => {
         params: {
           type: "ERC20",
           options: {
-            address,
-          },
-        },
+            address
+          }
+        }
       });
     } catch (err) {
       console.log(err);
@@ -53,7 +56,7 @@ const accountStore = _baseStore(store, ({ update, subscribe, _set }) => {
     update,
     subscribe,
     sign,
-    watchToken,
+    watchToken
   };
 });
 
