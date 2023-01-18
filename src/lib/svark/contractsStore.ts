@@ -7,7 +7,7 @@ import _baseStore from "./_baseStore";
 
 // Store of all contract stores. Subscribes to account changes
 
-export type Contract = StarknetContract | EthersContract;
+export type Contract = StarknetContract;
 
 type ContractsStoreType = Record<string, Writable<Contract>>;
 
