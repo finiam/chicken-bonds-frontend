@@ -8,6 +8,7 @@ export type User = {
   allowance: {
     lusd: number;
     yearn: number;
+    loading: boolean;
   };
   canCreateBond: boolean;
 };
@@ -16,10 +17,20 @@ function user() {
   const store = writable<User>({
     allowance: {
       lusd: 0,
-      yearn: 0
+      yearn: 0,
+      loading: false
     },
     canCreateBond: false
   });
+
+  async function getBalance() {
+    const userAddress = get(account).address;
+    const contract = get(contracts).lusd;
+
+    const req = await get(contract).balanceOf(number.toFelt(userAddress));
+
+    console.log(parseUint256(req.balance));
+  }
 
   async function getAllowance(contract: ContractStore) {
     const userAddress = get(account).address;
@@ -38,6 +49,14 @@ function user() {
       return;
     }
 
+    store.update((st) => ({
+      ...st,
+      allowance: {
+        ...st.allowance,
+        loading: true
+      }
+    }));
+
     const lusdVal = await getAllowance(lusd);
     const yearnVal = await getAllowance(yearn);
 
@@ -46,7 +65,8 @@ function user() {
       canCreateBond: lusdVal > 0 && yearnVal > 0,
       allowance: {
         lusd: lusdVal,
-        yearn: yearnVal
+        yearn: yearnVal,
+        loading: false
       }
     }));
   }
@@ -54,12 +74,18 @@ function user() {
   return {
     subscribe: store.subscribe,
     update: store.update,
-    getAllAllowances
+    getAllAllowances,
+    getBalance
   };
 }
 
 const userStore = user();
 
-account.subscribe(() => userStore.getAllAllowances());
+account.subscribe(({ address }) => {
+  if (address) {
+    userStore.getAllAllowances();
+    userStore.getBalance();
+  }
+});
 
 export default userStore;

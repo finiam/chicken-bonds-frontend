@@ -2,7 +2,6 @@
 import type { Abi, AccountInterface } from "starknet";
 import type { Subscriber, Unsubscriber } from "svelte/store";
 import { get, writable } from "svelte/store";
-/* import ERC20 from "$lib/data/ERC20.json"; */
 import type { ContractStore } from "./contract";
 import contract from "./contract";
 import _baseStore from "./_baseStore";
@@ -45,23 +44,23 @@ export default function balance(
     success: false,
     error: false,
     balance: 0,
-    data: null,
+    data: null
   });
 
   const storeActions = _baseStore(store, ({ subscribe, _set }) => {
     const _contract =
       receivedContract ||
-      contract("test", {
+      contract(name, {
         contractAddress: address as string,
         abi: ERC20 as Abi,
-        providerOrAccount: get(accountStore).account as AccountInterface,
+        providerOrAccount: get(accountStore).account as AccountInterface
       });
 
     async function getBalance() {
       _set({
         loading: true,
         error: false,
-        success: false,
+        success: false
       });
 
       try {
@@ -70,7 +69,7 @@ export default function balance(
         _set({
           success: true,
           balance: parseUint256(bal.balance),
-          data: bal,
+          data: bal
         });
       } catch (err) {
         _set({ error: true });
@@ -83,7 +82,7 @@ export default function balance(
 
     return {
       subscribe,
-      getBalance,
+      getBalance
     };
   });
 

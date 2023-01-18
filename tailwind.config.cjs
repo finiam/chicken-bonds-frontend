@@ -7,8 +7,12 @@ module.exports = {
         ibm: "IBM Plex Sans"
       },
       fontWeight: {
-        light: 300,
-        heavy: 500
+        light: 400,
+        heavy: 700
+      },
+      colors: {
+        offblack: "#242424",
+        offwhite: "#fefefe"
       }
     }
   },

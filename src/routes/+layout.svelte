@@ -1,18 +1,13 @@
 <script lang="ts">
   import "../app.css";
-  import { account } from "$lib/svark";
-  import Connect from "$lib/components/Connect.svelte";
 </script>
 
-<div class="font-ibm h-full">
-  {#if $account.connected}
-    <main class="max-w-5xl pt-6 mx-auto">
-      <slot />
-    </main>
-  {:else}
-    <Connect />
-  {/if}
+<div class="font-ibm h-full  text-offwhite root">
+  <slot />
 </div>
 
 <style>
+.root {
+  background: linear-gradient(45deg, #1f2937, #161c24);
+}
 </style>
