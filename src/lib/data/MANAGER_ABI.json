@@ -1,0 +1,151 @@
+[
+  {
+    "name": "Uint256",
+    "size": 2,
+    "type": "struct",
+    "members": [
+      {
+        "name": "low",
+        "type": "felt",
+        "offset": 0
+      },
+      {
+        "name": "high",
+        "type": "felt",
+        "offset": 1
+      }
+    ]
+  },
+  {
+    "name": "constructor",
+    "type": "constructor",
+    "inputs": [
+      {
+        "name": "_bond_address",
+        "type": "felt"
+      },
+      {
+        "name": "_lusd_address",
+        "type": "felt"
+      },
+      {
+        "name": "_blusd_address",
+        "type": "felt"
+      },
+      {
+        "name": "_mock_curve_pool_address",
+        "type": "felt"
+      },
+      {
+        "name": "_mock_yearn_lusd_vault_address",
+        "type": "felt"
+      },
+      {
+        "name": "_mock_yearn_curve_vault_address",
+        "type": "felt"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "name": "create_bond",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "lusd_amount",
+        "type": "Uint256"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "name": "chicken_out",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "_bond_id",
+        "type": "Uint256"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "name": "chicken_in",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "_bond_id",
+        "type": "Uint256"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "name": "redeem",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "_sLUSD_to_redeem",
+        "type": "Uint256"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "name": "get_id_to_bond_data",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "id",
+        "type": "Uint256"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "lusd_amount",
+        "type": "Uint256"
+      },
+      {
+        "name": "start_time",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "name": "get_lusd_address",
+    "type": "function",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "lusd_address",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "name": "get_bond_address",
+    "type": "function",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "bond_address",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "name": "get_total_pending_LUSD",
+    "type": "function",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "pending",
+        "type": "Uint256"
+      }
+    ],
+    "stateMutability": "view"
+  }
+]

@@ -3,27 +3,54 @@
   import LUSD_ABI from "$lib/data/LUSD_ABI.json";
   import YEARN_ABI from "$lib/data/YEARN_ABI.json";
   import Approve from "$lib/components/Approve.svelte";
+  import user from "$lib/stores/user";
+  import { onMount } from "svelte";
+  import AllowanceStatus from "$lib/components/AllowanceStatus.svelte";
+  import CreateBond from "$lib/components/CreateBond.svelte";
 
-  contract("LUSD", {
+  contract("lusd", {
     contractAddress: import.meta.env.VITE_LUSD_CONTRACT,
     abi: LUSD_ABI,
     providerOrAccount: $account.account
   });
-  contract("yearnLUSD", {
+  contract("yearn", {
     contractAddress: import.meta.env.VITE_YEARN_CONTRACT,
     abi: YEARN_ABI,
     providerOrAccount: $account.account
   });
+
+  let ready = false;
+
+  onMount(async () => {
+    await user.getAllAllowances();
+
+    ready = true;
+  });
 </script>
 
-<h1>Chicken bonds</h1>
+<header class="mb-4">
+  <h1 class="text-2xl font-heavy">Chicken bonds</h1>
+  <p class="text-gray-600">
+    Hello, {$account.address.substring(0, 4)}...{$account.address.slice(-5)}
+  </p>
+</header>
 
-<p>
-  Hello, {$account.address.substring(0, 4)}...{$account.address.slice(-5)}
-</p>
-<p>
-  To begin, you'll have to authorize the smart contracts to manage your LUSD,
-  and yearn LUSD. You can specify how much LUSD is controlled by the contract.
-</p>
-<Approve contract={$contracts.LUSD} name="LUSD" />
-<Approve contract={$contracts.yearnLUSD} name="Yearn" />
+{#if ready}
+  <div class="flex gap-8">
+    <AllowanceStatus type="lusd" contract={$contracts.lusd}>
+      <h2 slot="header" class="text-xl">LUSD</h2>
+      <Approve contract={$contracts.lusd} slot="approve" />
+    </AllowanceStatus>
+
+    <AllowanceStatus type="yearn" contract={$contracts.yearn}>
+      <h2 slot="header" class="text-xl">Yearn LUSD</h2>
+      <Approve contract={$contracts.yearn} slot="approve" />
+    </AllowanceStatus>
+
+    {#if $user.canCreateBond}
+      <CreateBond />
+    {/if}
+  </div>
+{:else}
+  <p>getting the chickens...</p>
+{/if}

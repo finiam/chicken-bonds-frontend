@@ -4,13 +4,15 @@
   import Connect from "$lib/components/Connect.svelte";
 </script>
 
-<main class="font-ibm h-full">
+<div class="font-ibm h-full">
   {#if $account.connected}
-    <slot />
+    <main class="max-w-5xl pt-6 mx-auto">
+      <slot />
+    </main>
   {:else}
     <Connect />
   {/if}
-</main>
+</div>
 
 <style>
 </style>
