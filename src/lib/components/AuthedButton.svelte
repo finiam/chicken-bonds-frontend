@@ -1,11 +1,12 @@
 <script lang="ts">
   import { account, connect } from "$lib/svark";
+  import Button from "./Button.svelte";
 </script>
 
 {#if $account.connected}
   <slot />
 {:else}
-  <button type="button" on:click={() => connect.connectWallet()}>
+  <Button type="button" on:click={() => connect.connectWallet()} fullWidth>
     Connect wallet
-  </button>
+  </Button>
 {/if}
