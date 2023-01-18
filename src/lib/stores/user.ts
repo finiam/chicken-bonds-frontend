@@ -32,15 +32,21 @@ function user() {
   }
 
   async function getAllAllowances() {
-    const lusd = await getAllowance(get(contracts).lusd);
-    const yearn = await getAllowance(get(contracts).yearn);
+    const { lusd, yearn } = get(contracts);
+
+    if (!lusd || !yearn) {
+      return;
+    }
+
+    const lusdVal = await getAllowance(lusd);
+    const yearnVal = await getAllowance(yearn);
 
     store.update((st) => ({
       ...st,
-      canCreateBond: lusd > 0 && yearn > 0,
+      canCreateBond: lusdVal > 0 && yearnVal > 0,
       allowance: {
-        lusd,
-        yearn
+        lusd: lusdVal,
+        yearn: yearnVal
       }
     }));
   }
