@@ -8,6 +8,7 @@ export type User = {
   allowance: {
     lusd: number;
     yearn: number;
+    loading: boolean;
   };
   canCreateBond: boolean;
 };
@@ -16,7 +17,8 @@ function user() {
   const store = writable<User>({
     allowance: {
       lusd: 0,
-      yearn: 0
+      yearn: 0,
+      loading: false
     },
     canCreateBond: false
   });
@@ -38,6 +40,14 @@ function user() {
       return;
     }
 
+    store.update((st) => ({
+      ...st,
+      allowance: {
+        ...st.allowance,
+        loading: true
+      }
+    }));
+
     const lusdVal = await getAllowance(lusd);
     const yearnVal = await getAllowance(yearn);
 
@@ -46,7 +56,8 @@ function user() {
       canCreateBond: lusdVal > 0 && yearnVal > 0,
       allowance: {
         lusd: lusdVal,
-        yearn: yearnVal
+        yearn: yearnVal,
+        loading: false
       }
     }));
   }
@@ -60,6 +71,8 @@ function user() {
 
 const userStore = user();
 
-account.subscribe(() => userStore.getAllAllowances());
+account.subscribe(({ address }) => {
+  if (address) userStore.getAllAllowances();
+});
 
 export default userStore;
