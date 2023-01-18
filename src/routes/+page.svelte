@@ -2,6 +2,7 @@
   import { contracts, account, contract } from "$lib/svark";
   import LUSD_ABI from "$lib/data/LUSD_ABI.json";
   import YEARN_ABI from "$lib/data/YEARN_ABI.json";
+  import MANAGER_ABI from "$lib/data/MANAGER_ABI.json";
   import Approve from "$lib/components/Approve.svelte";
   import user from "$lib/stores/user";
   import { onMount } from "svelte";
@@ -16,6 +17,11 @@
   contract("yearn", {
     contractAddress: import.meta.env.VITE_YEARN_CONTRACT,
     abi: YEARN_ABI,
+    providerOrAccount: $account.account
+  });
+  contract("manager", {
+    contractAddress: import.meta.env.VITE_MANAGER_CONTRACT,
+    abi: MANAGER_ABI,
     providerOrAccount: $account.account
   });
 
@@ -36,17 +42,18 @@
 </header>
 
 {#if ready}
-  <div class="flex gap-8">
-    <AllowanceStatus type="lusd" contract={$contracts.lusd}>
-      <h2 slot="header" class="text-xl">LUSD</h2>
-      <Approve contract={$contracts.lusd} slot="approve" />
-    </AllowanceStatus>
+  <div>
+    <div class="flex gap-8 mb-8">
+      <AllowanceStatus type="lusd" contract={$contracts.lusd}>
+        <h2 slot="header" class="text-xl">LUSD</h2>
+        <Approve contract={$contracts.lusd} slot="approve" />
+      </AllowanceStatus>
 
-    <AllowanceStatus type="yearn" contract={$contracts.yearn}>
-      <h2 slot="header" class="text-xl">Yearn LUSD</h2>
-      <Approve contract={$contracts.yearn} slot="approve" />
-    </AllowanceStatus>
-
+      <AllowanceStatus type="yearn" contract={$contracts.yearn}>
+        <h2 slot="header" class="text-xl">Yearn LUSD</h2>
+        <Approve contract={$contracts.yearn} slot="approve" />
+      </AllowanceStatus>
+    </div>
     {#if $user.canCreateBond}
       <CreateBond />
     {/if}
