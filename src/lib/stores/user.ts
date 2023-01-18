@@ -52,4 +52,8 @@ function user() {
   };
 }
 
-export default user();
+const userStore = user();
+
+account.subscribe(() => userStore.getAllAllowances());
+
+export default userStore;
