@@ -19,8 +19,8 @@
       class="flex items-center gap-2 p-4 rounded-2xl bg-gray-800 hover:bg-neutral-700 transition-opacity"
     >
       <div class="rounded-full h-3 w-3 bg-amber-400" />
-      <p class="tracking-widest">
-        {$account.address.substring(0, 6)}...{$account.address.slice(-4)}
+      <p class="tracking-widest text-sm">
+        {$account.address.substring(0, 6)}...{$account.address.slice(-2)}
       </p>
     </button>
     <div />

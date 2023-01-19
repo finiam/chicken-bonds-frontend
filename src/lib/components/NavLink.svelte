@@ -8,9 +8,10 @@
 </script>
 
 <a
-  class="text-amber-400 tracking-widest uppercase font-light"
-  class:text-orange-500={active}
+  class="text-amber-400 tracking-widest uppercase"
+  class:text-amber-500={active}
   class:font-heavy={active}
+  class:font-light={!active}
   href="/"
   {...$$restProps}
 >
